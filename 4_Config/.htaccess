@@ -1,0 +1,44 @@
+# BEGIN Really Simple Security Redirect
+
+<IfModule mod_rewrite.c>
+RewriteEngine on
+RewriteCond %{HTTP_USER_AGENT} !lscache_runner [NC]
+RewriteCond %{HTTP:X-Forwarded-Proto} !https
+RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+</IfModule>
+
+# END Really Simple Security Redirect
+# BEGIN WordPress
+# The directives (lines) between "BEGIN WordPress" and "END WordPress" are
+# dynamically generated, and should only be modified via WordPress filters.
+# Any changes to the directives between these markers will be overwritten.
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+RewriteBase /
+RewriteRule ^index\.php$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /index.php [L]
+</IfModule>
+
+# END WordPress
+# BEGIN DS-XML-RPC-API
+# "BEGIN DS-XML-RPC-API"와 "END DS-XML-RPC-API" 사이의 지시문(줄)은 
+# 동적으로 생성되며 워드프레스 필터를 통해서만 수정해야합니다. 
+# 이 표시 사이의 지시문을 변경하면 덮어쓰게 됩니다.
+<Files xmlrpc.php>
+order deny,allow
+deny from all
+
+</Files>
+
+# END DS-XML-RPC-API
+php_value memory_limit 512M
+php_value upload_max_filesize 64M
+php_value post_max_size 64M
+# BEGIN Really Simple Security Disable directory indexing
+# "BEGIN Really Simple Security Disable directory indexing"와 "END Really Simple Security Disable directory indexing" 사이의 지시문(줄)은 
+# 동적으로 생성되며 워드프레스 필터를 통해서만 수정해야합니다. 
+# 이 표시 사이의 지시문을 변경하면 덮어쓰게 됩니다.
+# END Really Simple Security Disable directory indexing
